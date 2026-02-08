@@ -16,11 +16,11 @@ while True:
     cv2.imshow("Webcam Test", frame)
 
     # Press 'q' to quit
-    # cv2.waitKey waits 1 millisecond and checks for keyboard input 
+    # cv2.waitKey waits 1 millisecond and checks for keyboard input
     # waitKey returns -1 -> no key pressed
     # or waitKey returns key pressed (ASCII)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-video_capture.release() # Closes Webcam 
+video_capture.release() # Closes Webcam
 cv2.destroyAllWindows() # Closes any OpenCV-created windows

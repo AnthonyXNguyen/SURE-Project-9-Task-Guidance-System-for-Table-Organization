@@ -6,7 +6,7 @@ python3 -m venv venv
 source venv/vin/activate
 
 # Install Dependicies
-pip install opencv-python numpy
+pip install opencv-contrib-python numpy
 
 
 # Exiting the Program 
