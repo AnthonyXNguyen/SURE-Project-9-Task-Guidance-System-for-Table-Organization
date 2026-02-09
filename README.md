@@ -3,7 +3,7 @@ A full pipeline that perceives the real world, tracks the state of a physical wo
 
 # Create and activate a virtual environment
 python3 -m venv venv
-source venv/vin/activate
+source venv/bin/activate
 
 # Install Dependicies
 pip install opencv-contrib-python numpy
