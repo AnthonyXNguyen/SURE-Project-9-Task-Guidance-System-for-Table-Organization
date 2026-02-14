@@ -1,47 +1,58 @@
 import cv2
-import numpy as np
 
 
-def highlight_object(frame, H, table_coords, label, color):
+def highlight_object(frame, bbox, label, color):
 
-    if table_coords is None:
+    if bbox is None:
         return
 
-    tx, ty = table_coords
+    x, y, w, h = bbox
 
-    # Convert table coords → image coords
-    table_pt = np.array([[[tx, ty]]], dtype=np.float32)
-    image_pt = cv2.perspectiveTransform(table_pt, H)
+    # Draw bounding box
+    cv2.rectangle(
+        frame,
+        (x, y),
+        (x + w, y + h),
+        color,
+        3
+    )
 
-    x, y = image_pt[0][0]
-    x, y = int(x), int(y)
-
-    # Outer ring
-    cv2.circle(frame, (x, y), 60, color, 4)
-
-    # Center dot
-    cv2.circle(frame, (x, y), 8, color, -1)
-
-    # Label
+    # Draw label above box
     cv2.putText(
         frame,
         label,
-        (x - 40, y - 70),
+        (x, y - 10),
         cv2.FONT_HERSHEY_SIMPLEX,
-        0.8,
+        0.7,
         color,
         2
     )
 
+# Helper functions 
+def pad_bottle_bbox(bbox, padding=20):
 
-# Convenience wrappers
-def highlight_cup(frame, H, coords):
-    highlight_object(frame, H, coords, "Cup", (0, 0, 255))  # Red
+    if bbox is None:
+        return None
+
+    x, y, w, h = bbox
+
+    x = max(0, x - padding)
+    y = max(0, y - padding)
+    w = w + 2 * padding
+    h = h + 2 * padding
+
+    return (x, y, w, h)
+
+# Wrappers
+def highlight_cup(frame, bbox):
+    highlight_object(frame, bbox, "Cup", (0, 0, 255))  # Red
 
 
-def highlight_bottle(frame, H, coords):
-    highlight_object(frame, H, coords, "Bottle", (255, 0, 0))  # Blue
+def highlight_bottle(frame, bbox):
+    padded_bbox = pad_bottle_bbox(bbox, 90)
+    highlight_object(frame, padded_bbox, "Bottle", (255, 0, 0))  # Blue
 
 
-def highlight_pencil(frame, H, coords):
-    highlight_object(frame, H, coords, "Pencil", (0, 255, 0))  # Green
+def highlight_pencil(frame, bbox):
+    highlight_object(frame, bbox, "Pencil", (0, 255, 0))  # Green
+

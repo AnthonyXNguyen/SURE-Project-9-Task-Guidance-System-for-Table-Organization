@@ -49,9 +49,9 @@ while True:
         draw_targets(frame, last_valid_H, targets)
 
         # Highlight detected objects
-        highlight_cup(frame, last_valid_H, detected_objects["cup"])
-        highlight_bottle(frame, last_valid_H, detected_objects["bottle"])
-        highlight_pencil(frame, last_valid_H, detected_objects["pencil"])
+        highlight_cup(frame, detected_objects["cup"])
+        highlight_bottle(frame, detected_objects["bottle"])
+        highlight_pencil(frame, detected_objects["pencil"])
 
     cv2.imshow("Task Guidance System", frame)
 
