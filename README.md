@@ -8,7 +8,6 @@ source venv/bin/activate
 # Install Dependicies
 pip install opencv-contrib-python numpy
 
-
 # Exiting the Program 
 Click on the OpenCV window to give it focus
 Press the q key to quit

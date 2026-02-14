@@ -38,8 +38,17 @@ while True:
         for i in range(len(ids)):
             marker_id = ids[i][0]
 
+            if marker_id == 0:
+                print("Detected marked ID = 0")
+
             if marker_id == 1:
                 print("Detected marked ID = 1")
+
+            if marker_id == 2:
+                print("Detected marked ID = 2")
+
+            if marker_id == 3:
+                print("Detected marked ID = 3")
 
             # Draw marker outline
             aruco.drawDetectedMarkers(frame, corners, ids)
@@ -54,5 +63,5 @@ while True:
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-video_capture.release()
-video_capture.destroyAllWindows()
+video_capture.release() # Closes Webcam
+cv2.destroyAllWindows() # Closes any OpenCV-created windows
