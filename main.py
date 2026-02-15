@@ -6,6 +6,7 @@ from Perception.object_detection import detect_objects
 
 # State
 from State.targets import generate_random_targets
+from State.state_management import TaskStateManager
 
 # Visualization
 from Visualization.draw_table_boundary import draw_table_boundary
@@ -16,11 +17,12 @@ from Visualization.highlight_objects import (
     highlight_pencil
 )
 
-
 # Generate targets ONCE at startup
 targets = generate_random_targets(3)
+state_manager = TaskStateManager(targets)
 
-cap = cv2.VideoCapture(0)
+# Camera is connected to Iphone using Camo Camera
+cap = cv2.VideoCapture(1)
 
 last_valid_H = None
 last_valid_image_pts = None
@@ -44,14 +46,28 @@ while True:
             frame,
             last_valid_H,
             last_valid_image_pts)
+        
+        state_manager.update(detected_objects)
 
         draw_table_boundary(frame, last_valid_image_pts)
+        # Need to only draw 1 target at a time with a arrow pointing to it. 
+        # after objec is_in_target display text 
         draw_targets(frame, last_valid_H, targets)
 
-        # Highlight detected objects
-        highlight_cup(frame, detected_objects["cup"])
-        highlight_bottle(frame, detected_objects["bottle"])
-        highlight_pencil(frame, detected_objects["pencil"])
+        #current_obj = state_manager.get_current_object()
+
+        #if current_obj == "cup":
+        obj_data = detected_objects["cup"]
+        highlight_cup(frame, obj_data["bbox"] if obj_data else None)
+
+        #elif current_obj == "bottle":
+        obj_data = detected_objects["bottle"]
+        highlight_bottle(frame, obj_data["bbox"] if obj_data else None)
+
+        #elif current_obj == "pencil":
+        obj_data = detected_objects["pencil"]
+        highlight_pencil(frame, obj_data["bbox"] if obj_data else None)
+
 
     cv2.imshow("Task Guidance System", frame)
 

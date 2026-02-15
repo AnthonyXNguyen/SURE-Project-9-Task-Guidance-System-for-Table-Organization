@@ -8,6 +8,12 @@ source venv/bin/activate
 # Install Dependicies
 pip install opencv-contrib-python numpy
 
+# How to connect camera to OpenCV
+1. Download Camo Studio on Mac
+2. Download Camo Camera on Iphone
+3. Pair Camo Camera on Iphone to Camo Studio on Mac
+4. Run main.py and camera output on OpenCV should be connected to Iphone Camera. 
+
 # Exiting the Program 
 Click on the OpenCV window to give it focus
 Press the q key to quit

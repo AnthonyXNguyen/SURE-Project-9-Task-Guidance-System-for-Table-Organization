@@ -3,7 +3,8 @@ import cv2
 aruco = cv2.aruco
 dictionary = aruco.getPredefinedDictionary(aruco.DICT_4X4_50)
 
-video_capture = cv2.VideoCapture(0)
+# Connected to iphone
+video_capture = cv2.VideoCapture(1, cv2.CAP_AVFOUNDATION)
 
 if not video_capture.isOpened():
     print("Error: Could not open camera")
@@ -25,7 +26,7 @@ while True:
     # An array of corners for each each marker
     # Each corner[i] has 4 (x,y) points for each marker
     # Essentialy is an array of where each marker is in the image
-    corners = detection_result[0] 
+    corners = detection_result[0]
     
     # a NumPy column vector, an vector of which marker IDs are detected
     ids = detection_result[1]
