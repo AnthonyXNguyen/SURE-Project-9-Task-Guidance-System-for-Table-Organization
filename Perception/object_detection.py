@@ -70,15 +70,18 @@ def detect_objects(frame, H, image_pts):
 
 
 def build_object_data(bbox, H_inv):
-    x1, y_top, x2, y_bottom = bbox
+    x, y, w, h = bbox
+
+    x1 = x                  
+    y_top = y               
+    x2 = x + w              
+    y_bottom = y + h       
 
     bottom_center_x = (x1 + x2) / 2
     bottom_center_y = y_bottom + 5
 
-    # Prepare point for perspective transform
     point = np.array([[[bottom_center_x, bottom_center_y]]], dtype=np.float32)
 
-    # Project from image space → table space
     projected = cv2.perspectiveTransform(point, H_inv)
     table_x, table_y = projected[0][0]
 
@@ -86,6 +89,7 @@ def build_object_data(bbox, H_inv):
         "bbox": bbox,
         "table_coords": (table_x, table_y)
     }
+
 
 
 def shrink_bbox(bbox, shrink_factor=0.1):
@@ -124,7 +128,11 @@ def largest_valid_contour_bbox(mask, min_area=500):
         area = cv2.contourArea(cnt)
         if area < min_area:
             continue
-
+        
+        # x = left coordinate of box
+        # y = top coordinate of box
+        # w = width of box 
+        # h = height of box 
         x, y, w, h = cv2.boundingRect(cnt)
 
         if area > best_area:

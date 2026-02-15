@@ -1,3 +1,5 @@
+import math
+
 class TaskStateManager:
 
     def __init__(self, targets):
@@ -48,12 +50,14 @@ class TaskStateManager:
         tx_obj, ty_obj = obj_data["table_coords"]
         tx_target, ty_target = self.targets[obj_name]
 
-        threshold = 0.08  # 8% of table width
+        threshold = 0.12  # 12% of table width
 
-        return (
-            abs(tx_obj - tx_target) < threshold and
-            abs(ty_obj - ty_target) < threshold
+        distance = math.sqrt(
+        (tx_obj - tx_target)**2 +
+        (ty_obj - ty_target)**2
         )
+
+        return distance < threshold
 
     # Which object should be guided right now?
     def get_current_object(self):

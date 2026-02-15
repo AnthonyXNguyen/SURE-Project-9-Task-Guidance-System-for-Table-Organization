@@ -1,13 +1,9 @@
 import cv2
 import numpy as np
 
-def draw_table_boundary(frame, image_pts):
-    pts = image_pts.astype(np.int32)
-    cv2.polylines(frame, [pts], True, (255, 0, 0), 3)
-
 def draw_targets(frame, H, targets_dict, state_manager):
 
-    size = 0.07  # zone width in table units
+    size = 0.08  # zone width in table units
 
     for obj_name, (tx, ty) in targets_dict.items():
 
@@ -33,7 +29,7 @@ def draw_targets(frame, H, targets_dict, state_manager):
         label_map = {
             "cup": "A",
             "bottle": "B",
-            "plate": "C"
+            "pencil": "C"
         }
 
         center = np.array([[[tx, ty]]], dtype=np.float32)

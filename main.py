@@ -11,6 +11,8 @@ from State.state_management import TaskStateManager
 # Visualization
 from Visualization.draw_table_boundary import draw_table_boundary
 from Visualization.draw_targets import draw_targets
+from Visualization.draw_guidance_arrow import draw_guidance_arrow
+from Visualization.draw_status_overlay import draw_status_overlay
 from Visualization.highlight_objects import (
     highlight_cup,
     highlight_bottle,
@@ -47,26 +49,34 @@ while True:
             last_valid_H,
             last_valid_image_pts)
         
+        # Update task state 
         state_manager.update(detected_objects)
 
+        # Draw boundary zone from ArUco markers
         draw_table_boundary(frame, last_valid_image_pts)
-        # Need to only draw 1 target at a time with a arrow pointing to it. 
-        # after objec is_in_target display text 
-        draw_targets(frame, last_valid_H, targets)
+        
+        # Draw warped targets in boundary zone (A, B, C)
+        draw_targets(frame, last_valid_H, state_manager.targets, state_manager)
 
-        #current_obj = state_manager.get_current_object()
+        # Draw guidance arrow to current target
+        draw_guidance_arrow(frame, last_valid_H, detected_objects, state_manager)
 
-        #if current_obj == "cup":
-        obj_data = detected_objects["cup"]
-        highlight_cup(frame, obj_data["bbox"] if obj_data else None)
+        # Add textual feedback regarding the current step
+        draw_status_overlay(frame, state_manager, detected_objects)
 
-        #elif current_obj == "bottle":
-        obj_data = detected_objects["bottle"]
-        highlight_bottle(frame, obj_data["bbox"] if obj_data else None)
+        current_obj = state_manager.get_current_object()
 
-        #elif current_obj == "pencil":
-        obj_data = detected_objects["pencil"]
-        highlight_pencil(frame, obj_data["bbox"] if obj_data else None)
+        if current_obj == "cup":
+            obj_data = detected_objects["cup"]
+            highlight_cup(frame, obj_data["bbox"] if obj_data else None)
+
+        elif current_obj == "bottle":
+            obj_data = detected_objects["bottle"]
+            highlight_bottle(frame, obj_data["bbox"] if obj_data else None)
+
+        elif current_obj == "pencil":
+            obj_data = detected_objects["pencil"]
+            highlight_pencil(frame, obj_data["bbox"] if obj_data else None)
 
 
     cv2.imshow("Task Guidance System", frame)
