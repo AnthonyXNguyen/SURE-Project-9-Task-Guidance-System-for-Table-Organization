@@ -2,8 +2,8 @@
 A full pipeline that perceives the real world, tracks the state of a physical workflow, and provides visual feedback to guide a user.
 
 # Create and activate a virtual environment
-python3 -m venv venv
-source venv/bin/activate
+1. python3 -m venv venv
+2. source venv/bin/activate
 
 # Install Dependencies
 pip install opencv-contrib-python numpy
