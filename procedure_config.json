@@ -1,0 +1,17 @@
+{
+    "tasks": [
+        {
+            "object": "cup",
+            "label": "A"
+        },
+        {
+            "object": "bottle",
+            "label": "B"
+        },
+        {
+            "object": "pencil",
+            "label": "C"
+        }
+    ],
+    "target_generation": "random_normalized_0_to_1"
+}
