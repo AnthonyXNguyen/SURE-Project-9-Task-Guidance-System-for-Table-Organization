@@ -19,21 +19,29 @@ from Visualization.highlight_objects import (
     highlight_pencil
 )
 
-# Generate targets ONCE at startup
+# Randomly generates 3 targets once at startup
 targets = generate_random_targets(3)
+
+# Initialize TaskStateManager with 3 targets (A, B, C)
 state_manager = TaskStateManager(targets)
 
 # Camera is connected to Iphone using Camo Camera
 cap = cv2.VideoCapture(1)
 
+# Stores the most recent valid homography matrix, H
+# H maps table coordinate space to image pixel space
 last_valid_H = None
+
+# Stores the most recent valid detected table corner points
+# image_pts: 4 table corner points in image pixel coordinates
 last_valid_image_pts = None
 
 while True:
     success, frame = cap.read()
     if not success:
         break
-
+    
+    # Detect ArUco markers and compute homography
     image_pts, H = detect_table_and_homography(frame)
 
     # Update homography 
@@ -78,11 +86,12 @@ while True:
             obj_data = detected_objects["pencil"]
             highlight_pencil(frame, obj_data["bbox"] if obj_data else None)
 
-
+    # Show frame
     cv2.imshow("Task Guidance System", frame)
 
+    # Press q to exit program
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-cap.release()
-cv2.destroyAllWindows()
+cap.release() # Closes Webcam
+cv2.destroyAllWindows() # Closes any OpenCV-created windows

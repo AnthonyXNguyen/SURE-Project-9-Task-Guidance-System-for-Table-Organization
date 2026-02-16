@@ -9,11 +9,11 @@ def detect_objects(frame, H, image_pts):
         "cup": None,
         "pencil": None
     }
-    
+
     # If homography or markers are not detected, return empty results
     if H is None or image_pts is None:
         return results
-    
+
     # Inverse homography maps image space → table space
     H_inv = np.linalg.inv(H)
 
@@ -74,8 +74,6 @@ def detect_objects(frame, H, image_pts):
     bottle_bbox = largest_valid_contour_bbox(mask_dark_blue, min_area=800)
     if bottle_bbox is not None:
         if bbox_inside_boundary_zone(bottle_bbox, table_polygon):
-            # bottle_bbox = shrink_bbox(bottle_bbox, 0.1)
-
             results["bottle"] = build_object_data(bottle_bbox, H_inv)
 
     # Detect purple cup
@@ -91,7 +89,6 @@ def detect_objects(frame, H, image_pts):
             results["pencil"] = build_object_data(pencil_bbox, H_inv)
 
     return results
-
 
 
 def build_object_data(bbox, H_inv):
@@ -120,20 +117,6 @@ def build_object_data(bbox, H_inv):
         "bbox": bbox,
         "table_coords": (table_x, table_y)
     }
-
-
-# def shrink_bbox(bbox, shrink_factor=0.1):
-#     x, y, w, h = bbox
-
-#     dx = int(w * shrink_factor)
-#     dy = int(h * shrink_factor)
-
-#     new_x = x + dx
-#     new_y = y + dy
-#     new_w = w - 2 * dx
-#     new_h = h - 2 * dy
-
-#     return (new_x, new_y, new_w, new_h)
 
 
 def image_to_table_coords(center, H_inv):
