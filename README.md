@@ -5,7 +5,7 @@ A full pipeline that perceives the real world, tracks the state of a physical wo
 python3 -m venv venv
 source venv/bin/activate
 
-# Install Dependicies
+# Install Dependencies
 pip install opencv-contrib-python numpy
 
 # How to connect camera to OpenCV
@@ -15,5 +15,5 @@ pip install opencv-contrib-python numpy
 4. Run main.py and camera output on OpenCV should be connected to Iphone Camera. 
 
 # Exiting the Program 
-Click on the OpenCV window to give it focus
+Click on the OpenCV window to give it focus.
 Press the q key to quit

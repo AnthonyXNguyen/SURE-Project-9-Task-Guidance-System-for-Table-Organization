@@ -2,20 +2,19 @@ import cv2
 import numpy as np
 
 def draw_table_boundary(frame, image_pts):
-    """
-    Draw the detected table boundary on the frame.
 
-    Parameters:
-        frame (np.ndarray): camera frame
-        image_pts (np.ndarray): 4x2 array of corner points in image space
-    """
+    # Parameters:
+    #     frame (np.ndarray): Current camera image.
+    #     image_pts (np.ndarray): 4x2 array of table corner points in image space.
 
     if image_pts is None:
         return
 
+    # Convert floating-point coordinates to integers for drawing
     pts = image_pts.astype(np.int32)
 
-    # OpenCV expects list of arrays
+    # Draw polygon connecting the 4 detected table corners.
+    # OpenCV expects a list of point arrays, hence [pts].
     cv2.polylines(
         frame,
         [pts],
